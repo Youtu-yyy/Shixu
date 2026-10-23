@@ -21,6 +21,7 @@ public final class NotificationExtractor {
     }
     private static String title(String parsed,String source,String place){
         String s=clean(parsed);
+        s=s.replaceAll("[（(]\\s*(?:具\\s*体|名单|请|备注|注意|说明)[\\s\\S]*$", "");
         if(!place.isEmpty())s=s.replaceAll("(?:地点[:：]?|在|于)?\\s*"+Pattern.quote(place),"");
         s=s.replaceAll("(?:时间|日期|地点)[：:]", "").replaceAll("^[\\s，,:：]*(?:请于|定于|将于|安排在|于|在|请大家|请各位同学|请同学们|请同学|请各位|请各|请)+", "").trim();
         Matcher action=Pattern.compile("(提交|上交|交齐|缴费|报名|签到|领取|集合|办理|归还|报送|完成|参加)(.{0,45})").matcher(s);
@@ -41,6 +42,9 @@ public final class NotificationExtractor {
         if(original==null||original.trim().isEmpty())throw new IllegalArgumentException("请先粘贴通知");
         if(original.length()>20000)throw new IllegalArgumentException("通知过长，请分段提炼（最多20000字）");
         String source=clean(original),text=source.replaceAll("[\\p{Zs}\\t]+"," ");
+        // Explanatory brackets may contain hard OCR line breaks; keep them in notes,
+        // but remove them before splitting the actionable sentence into clauses.
+        text=text.replaceAll("[（(]\\s*(?:具\\s*体|名单|请|备注|注意|说明)[^）)]*[）)]", "，");
         String[] clauses=text.split("[，,。；;！!\\r\\n]+",-1);
         int best=-1,bestScore=Integer.MIN_VALUE,actions=0;boolean certain=false;
         for(int i=0;i<clauses.length;i++){
@@ -76,3 +80,4 @@ public final class NotificationExtractor {
         return result;
     }
 }
+

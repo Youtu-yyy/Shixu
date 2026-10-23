@@ -55,3 +55,25 @@ MUL-05	歧义日期待核对	multi	[日期待核对]10月111:30 | 阅读分享 |
 BAD-01	非法日期	error	2026-02-30参加培训	reject=true
 BAD-02	非法时刻	error	明天25:00开会	reject=true
 BAD-03	非法区间	error	明天14:00-13:00开会	reject=true
+NOON-01	中午钟点误加12小时	parse	明天中午11点去吃饭	date=2026-10-23;time=11:00;title=去吃饭;trigger=2026-10-23T10:30
+NOON-02	中午中文钟点	parse	明天中午十一点去吃饭	time=11:00;title=去吃饭
+NOON-03	中午冒号钟点	parse	明天中午11:30去吃饭	time=11:30;title=去吃饭
+NOON-04	中午全角钟点	parse	明天中午１１：００去吃饭	time=11:00;title=去吃饭
+NOON-05	中午十二点	parse	明天中午12点去吃饭	time=12:00;title=去吃饭
+NOON-06	中午一点	parse	明天中午一点去吃饭	time=13:00;title=去吃饭
+NOON-07	中午两点	parse	明天中午两点去吃饭	time=14:00;title=去吃饭
+NOON-08	中午时间段	parse	明天中午11:00-12:00吃饭	time=11:00;endTime=12:00;endDayOffset=0;title=吃饭
+NOON-09	中午时间段跨十二点	parse	明天中午11点到1点吃饭	time=11:00;endTime=13:00;endDayOffset=0;title=吃饭
+NOON-10	中午时间段明确结束时段	parse	明天中午11点到下午1点吃饭	time=11:00;endTime=13:00;endDayOffset=0
+NOON-11	中午24小时区间	parse	明天中午11:30-13:30吃饭	time=11:30;endTime=13:30;endDayOffset=0
+NOON-12	晚上十一点保留	parse	明天晚上11点整理书架	time=23:00;title=整理书架
+ROOM-01	至字地点	parse	10月27日13:30至JQZ406参加第一场读书会议	date=2026-10-27;time=13:30;location=JQZ406;title=参加第一场读书会议
+ROOM-02	去字地点	parse	明天下午两点去教学楼301教室参加讨论	date=2026-10-23;time=14:00;location=教学楼301教室;title=参加讨论
+ROOM-03	到字地点	parse	明天上午九点到B204开会	time=09:00;location=B204;title=开会
+ROOM-04	地点不误判发送目标	parse	明天下午两点发材料至本群	location=;title=发材料至本群
+ROOM-05	地点不误判普通代码	parse	明天下午两点讨论JQZ406方案	location=;title=讨论JQZ406方案
+ROOM-06	通知标题去补充说明	notice	【10 月 27 日（下周二）13:30-14:15】\n至JQZ406参加第一场读书会议（具体参加名单稍后发布，请提前准备阅读材料）～🌹	date=2026-10-27;time=13:30;endTime=14:15;location=JQZ406;title=参加第一场读书会议;noteSource=true
+ROOM-07	OCR断行补充说明	notice	【10月27日（下周二）13:30-14:15】\n至JQZ406参加第一场读书会议（具\n体参加名单稍后发布，请提前准备\n阅读材料）～🌹	date=2026-10-27;time=13:30;endTime=14:15;location=JQZ406;title=参加第一场读书会议;noteSource=true
+ROOM-08	地点代码空格	parse	明天15:00至 JQZ 406 参加会议	time=15:00;location=JQZ406;title=参加会议
+ROOM-09	实际OCR教室零字母混淆	notice	【10月27日(下周二)13:30-14:15]至JQZ4O6参加第一场读书会议(具体参加名单稍后发布,请提前准备阅读材料)~9	date=2026-10-27;time=13:30;endTime=14:15;location=JQZ406;title=参加第一场读书会议;noteSource=true
+ROOM-10	有意义括号保留	notice	通知：明天下午两点在B204参加项目研讨（第二场），请同学们按时参加，本次研讨将讨论下一阶段研究计划。	date=2026-10-23;time=14:00;location=B204;title=参加项目研讨（第二场）;noteSource=true

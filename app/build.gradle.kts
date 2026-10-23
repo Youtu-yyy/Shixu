@@ -7,8 +7,8 @@ android {
         applicationId = "cn.shixu.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 53
-        versionName = "1.0.10"
+        versionCode = 55
+        versionName = "1.0.12"
         providers.gradleProperty("targetAbis").orNull?.let { ndk { abiFilters += it.split(',') } }
     }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
@@ -27,3 +27,4 @@ android {
     packaging { jniLibs.useLegacyPackaging = true }
 }
 dependencies { implementation("com.google.mlkit:text-recognition-chinese:16.0.1") }
+

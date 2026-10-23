@@ -10,4 +10,6 @@
     <instrumentation android:name="cn.shixu.app.test.InlineEditorInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
     <instrumentation android:name="cn.shixu.app.test.BeforeDayInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
     <instrumentation android:name="cn.shixu.app.test.AlertInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.NoonInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.NoticePhotoInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
 </manifest>

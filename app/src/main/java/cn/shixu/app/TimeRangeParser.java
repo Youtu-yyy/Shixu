@@ -25,10 +25,7 @@ public final class TimeRangeParser {
         }
     }
     static int hour(Clock c,String period){
-        int h=c.hour;
-        if((period.equals("下午")||period.equals("晚上")||period.equals("中午"))&&h<12)h+=12;
-        if(period.equals("凌晨")&&h==12)h=0;
-        return h;
+        return TimeParser.adjustHour(c.hour,period);
     }
     public static Range extract(String text){
         Matcher m=RANGE.matcher(text);

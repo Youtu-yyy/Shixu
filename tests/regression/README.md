@@ -4,7 +4,7 @@
 
 ## 文件和运行
 
-- [history-cases.tsv](history-cases.tsv)：56 条可执行语料，覆盖相对时间、时段之前、日期前归属、时间段、优先级、地点、通知、批量候选与非法输入。
+- [history-cases.tsv](history-cases.tsv)：68 条可执行语料，覆盖相对时间、时段之前、日期前归属、时间段、优先级、地点、通知、批量候选、非法输入与中午钟点修复。
 - [acceptance-cases.tsv](acceptance-cases.tsv)：47 条界面、通知、组件、图片、隐私与升级验收记录，包含具体操作、通过标准、已有自动入口和执行状态；1.0.8 增加持续提醒、独立开关和振动等级。
 - `tests/HistoryRegressionTests.java`：执行数据集，每条失败显示编号和期望差异，汇总全部案例再报错。
 - `test-regression.ps1`：统一入口。每次先运行全部核心测试，再按选择执行 Android 分组。未选择的分组与人工项目不计为通过。
@@ -14,6 +14,9 @@
 ```powershell
 # 无需模拟器，运行原有核心断言及新增语料
 ./test-regression.ps1
+
+# 每次发布必跑的固定设备基础组（8组）
+./test-regression.ps1 -BasicDevice -AppApk F:/codex/app/Shixu/build/Shixu-release-emulator.apk
 
 # 有模拟器时，额外验证指定重点（将覆盖安装测试版，保留主应用数据）
 ./test-regression.ps1 -DeviceGroups BeforeDay,Inline,Ocr,Batch
@@ -25,7 +28,7 @@
 ./test-background.ps1
 ```
 
-设备分组支持：BeforeDay、SameTime、Notice、Inline、Snooze、Week、WidgetPreview、Widget、Tutorial、Settings、Ocr、Batch、Alert。`Alert` 会短时测试响铃，验证持续提醒和停止逻辑；模拟器无法验证实际振动手感。`Widget` 需要先将组件添加到模拟器桌面。设备脚本会安装测试辅助包、创建和清理测试事项；后台脚本也会短时改变模拟器电池/休眠状态后恢复。不向已连接的个人真机自动批量写入任务。
+设备分组支持：BeforeDay、SameTime、Notice、Inline、Snooze、Week、WidgetPreview、Widget、Tutorial、Settings、Ocr、Batch、Alert、Noon。固定基础组为Noon、SameTime、BeforeDay、Inline、Snooze、Ocr、Batch、WidgetPreview。设备脚本会按需启动Pixel_6_API_36无界面测试模拟器，保留原数据，不重置设备。`Alert` 会短时测试响铃，验证持续提醒和停止逻辑；模拟器无法验证实际振动手感。`Widget` 需要先将组件添加到模拟器桌面。设备脚本会安装测试辅助包、创建和清理测试事项；后台脚本也会短时改变模拟器电池/休眠状态后恢复。不向已连接的个人真机自动批量写入任务。
 
 图片增强 `./test-device.ps1 -EnhanceOnly`、购票截图 `-TicketOnly` 依赖手动放入应用测试目录的照片，不放入默认必跑组；未提供照片应记为未执行，而不是通过。现有 Ocr/Batch 分组使用自绘通知与表格，可独立运行；它们不替代对拍照模糊、透视、低对比度真实照片的验收。
 
@@ -47,6 +50,7 @@
 | 某天前应前一天完成 | 11月7日前归11月6日；标题保留7日前；默认6日18:30提醒；不能二次提前 | DUE-08～13、BeforeDayTests、BeforeDayOnly |
 | 同一时刻表达 | 明天的这个时候按明天当前时刻；无事由提供定时提醒 | REL-06～07、SameTimeOnly |
 | 全角冒号与短横线 | 14：00-20：00等整体识别区间，不把结束时间漏进标题 | RNG-01～07、CoreTests |
+| 中午钟点与时间段 | 中午11点为11:00，11点到1点为11:00—13:00；一点为13:00，晚上十一点仍为23:00 | NOON-01～12、Noon设备组 |
 | 通知自动提炼 | 提取主要事项、时间、地点；备注直接保留原文；不确定或取消通知不乱提醒 | LOC、NOT、NoticeTests、NoticeOnly |
 | 图片与多事件 | 本机OCR→可编辑文字→多选候选→共享编辑→只保存所选；单区间不拆成两个事件 | MUL、BATCH、OcrOnly、BatchOnly |
 | 表单与提醒统一 | 分类/优先级下拉；提醒在编辑页开关控制；没有独立提醒弹窗 | UI-01～05、InlineOnly |
@@ -73,3 +77,9 @@
 ## 本次建立时的结果
 
 2026-10-22：56 条新增案例全部通过，包含177条断言；原有1052条核心断言全部通过。本次只执行本机规则测试，未把历史日志当作本次设备测试结果，也未重新验证小米锁屏延迟、组件选择器预览或连续点击卡死。
+
+## 1.0.12 地点与通知标题补充
+
+固定案例新增 ROOM-01～10：在/于/至/到/去引出的教室或房间、带空格的房间编号、实际OCR中的 JQZ4O6 零字母混淆、普通代码与群消息目标不误判、补充说明不占标题、有意义的“第二场”括号保留、原文备注完整保留。
+
+可选私有图片专项：先把匹配 NoticePhotoInstrumentation 期望的虚构测试图片放到模拟器应用外部 files/notice-user-photo.jpg，执行 `./test-device.ps1 -NoticePhotoOnly -AppApk <模拟器发布包>`。测试断网识别并核对地点、标题、日期、完整时段以及共享编辑页，不自动保存事项。图片不进入应用资源或公开发布物；测试后清理模拟器临时文件。`-ProbeOnly` 仅用于诊断OCR结果，不作为正式通过依据。

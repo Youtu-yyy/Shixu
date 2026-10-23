@@ -174,7 +174,14 @@ public final class TimeParser {
         s=s.replaceAll("提醒我|提醒一下我|提醒一下","");
         t.title=s.replaceAll("^[，,、;；\\s\\p{Zs}]+|[，,、;；\\s\\p{Zs}]+$","").replaceAll("[\\s\\p{Zs}]+"," ").trim();if(inheritedClock&&t.title.isEmpty())t.title="定时提醒";t.refreshBeforeTitle();return r;
     }
-    private static int adjustHour(int h,String p){if((p.equals("下午")||p.equals("晚上")||p.equals("中午"))&&h<12)h+=12;if(p.equals("凌晨")&&h==12)h=0;return h;}
+    static int adjustHour(int h,String p){
+        // Noon straddles 12:00: eleven stays 11, while one/two refer to 13/14.
+        // Apply the same conversion to point times and both endpoints of ranges.
+        if((p.equals("下午")||p.equals("晚上"))&&h<12)h+=12;
+        else if(p.equals("中午")&&h>=1&&h<=6)h+=12;
+        if(p.equals("凌晨")&&h==12)h=0;
+        return h;
+    }
     public static void applyDeadlineReminder(Task t,Map<String,String> ranges){
         t.reminderEveningTime="";t.reminderPeriod="";t.reminderPeriodTime="";t.reminderPeriodDayOffset=0;
         if(t.time.isEmpty()){t.reminderEveningTime=ranges.get("晚上").split("-")[0];LocalTime evening=LocalTime.parse(t.reminderEveningTime);t.lead=1440-evening.getHour()*60-evening.getMinute();return;}

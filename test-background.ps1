@@ -1,4 +1,5 @@
 $ErrorActionPreference='Stop'
+& "$PSScriptRoot\ensure-test-device.ps1"
 . "$PSScriptRoot\build.ps1"
 $testRoot="$build\background-test"
 New-Item -ItemType Directory -Force -Path "$testRoot\classes","$testRoot\dex" | Out-Null

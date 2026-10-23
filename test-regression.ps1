@@ -1,6 +1,7 @@
 param(
-    [ValidateSet('BeforeDay','SameTime','Notice','Inline','Snooze','Week','WidgetPreview','Widget','Tutorial','Settings','Ocr','Batch','Alert')]
+    [ValidateSet('BeforeDay','SameTime','Notice','Inline','Snooze','Week','WidgetPreview','Widget','Tutorial','Settings','Ocr','Batch','Alert','Noon','NoticePhoto')]
     [string[]]$DeviceGroups=@(),
+    [switch]$BasicDevice,
     [string]$AppApk=''
 )
 $ErrorActionPreference='Stop'
@@ -23,6 +24,7 @@ function Invoke-Check([string]$Name,[string]$Script,[hashtable]$Options){
     if($code -ne 0){throw "${Name} failed: $log"}
 }
 Invoke-Check 'core' "$PSScriptRoot/build.ps1" @{TestOnly=$true}
+if($BasicDevice){$DeviceGroups=@(@('Noon','SameTime','BeforeDay','Inline','Snooze','Ocr','Batch','WidgetPreview')+$DeviceGroups | Select-Object -Unique)}
 foreach($group in $DeviceGroups){
     $options=@{("${group}Only")=$true}
     if($AppApk){$options.AppApk=(Resolve-Path -LiteralPath $AppApk).Path}

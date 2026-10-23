@@ -1,6 +1,6 @@
 # 拾序 · 安卓待办与日程
 
-> 当前仓库源码为 1.0.10，仍有已知的中午钟点及部分地点、通知标题提取问题，暂不作为推荐稳定版。当前尚无正式 Release 或 APK 下载。
+> 最新发布：[拾序 1.0.12](https://github.com/Youtu-yyy/Shixu/releases/tag/v1.0.12)。修复中午钟点、地点及通知标题提取；图片在本机识别，不上传。优先下载 arm64 安装包，可覆盖安装。
 
 ## 主要功能里程碑
 
@@ -36,7 +36,7 @@
 
 ## 构建
 
-重点回归测试见 [对话改进测试集](tests/regression/README.md)：56 条固定文本案例与47条验收记录。运行 `./test-regression.ps1` 可执行全部本机规则检查，结果写入 `build/regression/`；也可选择设备分组验证，真机项目单独记录。
+重点回归测试见 [对话改进测试集](tests/regression/README.md)：78 条固定文本案例与47条验收记录。运行 `./test-regression.ps1` 可执行全部本机规则检查，结果写入 `build/regression/`；也可选择设备分组验证，真机项目单独记录。
 
 在 PowerShell 7 中执行 `./build.ps1`，使用本机 JDK 21/Android Studio JBR 和 `F:\Android\Sdk` 中的 API 36、Build Tools 36.0.0，运行核心测试，再用 Gradle 合并离线 OCR 模型、库资源、原生库和初始化配置，打包并签署调试 APK。首次构建需要联网下载工具与依赖，缓存位于项目 `build/gradle-home`，运行时图片文字识别不需要联网。产物为 `build/Shixu-debug.apk`。只运行纯 Java 解析测试可用 `./build.ps1 -TestOnly`。
 
