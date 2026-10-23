@@ -1,0 +1,5 @@
+Generated using built-in image_gen, editing C-chinese-v2.png.
+
+Design: Keep the blue background and white rounded 序 silhouette, which also suggests a notebook. Recolor ONLY the two diagonal arms of the central checkmark mint green #6FE3AE. Keep the upper inner horizontal bar white. Separate the green checkmark from both white horizontal bars with blue negative space. Preserve the outer roof, left stroke, bottom horizontal and vertical hook. No extra dot or decorations.
+
+Refinement: Shorten the rising right arm, round its terminal and leave a visible blue gap below the upper white bar, making the green mark independent from all white strokes. Preserve all other layout and proportions.

@@ -1,0 +1,13 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_task_root" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:padding="10dp" android:background="@drawable/widget_row_background">
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+    <TextView android:id="@+id/widget_task_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="13sp" android:textStyle="bold" android:textColor="#20283F" android:maxLines="2" android:ellipsize="end"/>
+    <TextView android:id="@+id/widget_task_time" android:ellipsize="end" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0"/>
+    <TextView android:id="@+id/widget_task_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:visibility="gone"/>
+    <TextView android:id="@+id/widget_task_reminder" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:visibility="gone"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp">
+        <TextView android:id="@+id/widget_task_category" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="6dp" android:paddingRight="6dp" android:paddingTop="2dp" android:paddingBottom="2dp" android:background="@drawable/widget_priority_low" android:textColor="#4561EE" android:textSize="9sp" android:maxWidth="110dp" android:singleLine="true" android:ellipsize="end"/>
+        <TextView android:id="@+id/widget_task_priority" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="5dp" android:paddingLeft="6dp" android:paddingRight="6dp" android:paddingTop="2dp" android:paddingBottom="2dp" android:textSize="9sp"/>
+    </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/widget_complete" android:layout_width="40dp" android:layout_height="44dp" android:gravity="center" android:textSize="24sp" android:textColor="#828AA0" android:text="○"/>
+</LinearLayout>

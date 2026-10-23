@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cn.shixu.app.test">
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="36" />
+    <application android:label="拾序自动测试"/>
+    <instrumentation android:name="cn.shixu.app.test.SmokeInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.BackgroundReminderInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.OcrInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.BatchInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.EnhanceInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.TicketPhotoInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.InlineEditorInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.BeforeDayInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+    <instrumentation android:name="cn.shixu.app.test.AlertInstrumentation" android:targetPackage="cn.shixu.app" android:functionalTest="true"/>
+</manifest>

@@ -1,0 +1,57 @@
+id	group	engine	input	expected
+REL-01	中文相对时间	parse	二十分钟后提醒我出门	date=2026-10-22;time=10:20;title=出门;lead=0;remind=true;trigger=2026-10-22T10:20
+REL-02	中文相对时间	parse	二十分钟后交作业	date=2026-10-22;time=10:20;title=交作业;lead=0
+REL-03	中文相对时间	parse	二十分钟后提醒我交作业	date=2026-10-22;time=10:20;title=交作业;lead=0
+REL-04	中文相对时间	parse	半小时后提醒我浇花	time=10:30;lead=0;title=浇花
+REL-05	中文相对时间	parse	十分钟后提醒我出门	time=10:10;lead=0;remind=true
+REL-06	同时刻表达	parse	明天的这个时候提醒我	date=2026-10-23;time=10:00;title=定时提醒;lead=0
+REL-07	同时刻表达	parse	明天的这个时候提醒我还书	date=2026-10-23;time=10:00;title=还书;lead=0
+REM-01	默认提醒	parse	今天下午提醒我出门	date=2026-10-22;time=13:30;period=下午;remind=true;lead=30;trigger=2026-10-22T13:00
+REM-02	默认提醒	parse	明天15:00开会	remind=true;lead=30;trigger=2026-10-23T14:30
+REM-03	明确提醒要求	parse	明天15:00开会，提前10分钟提醒	lead=10;trigger=2026-10-23T14:50
+REM-04	明确提醒要求	parse	明天15:00开会，不提醒	remind=false
+REM-05	明确提醒要求	parse	明天15:00开会，提前半小时提醒	lead=30;trigger=2026-10-23T14:30
+DUE-01	时段截止	parse	提醒我周一晚上之前交材料	date=2026-10-26;time=18:30;deadline=true;beforeDay=false;title=交材料;trigger=2026-10-26T13:30
+DUE-02	时段截止	parse	请周一晚上之前交材料	date=2026-10-26;deadline=true;trigger=2026-10-26T13:30
+DUE-03	时段截止	parse	周一晚上前交材料	date=2026-10-26;deadline=true;trigger=2026-10-26T13:30
+DUE-04	时段截止	parse	提醒我明天中午之前归还图书	date=2026-10-23;time=11:35;deadline=true;trigger=2026-10-23T09:00
+DUE-05	时段截止	parse	请明天下午以前交材料	date=2026-10-23;time=13:30;deadline=true;trigger=2026-10-23T11:35
+DUE-06	精确截止	parse	提醒我明天下午15:00之前交材料	date=2026-10-23;time=15:00;deadline=true;beforeDay=false
+DUE-07	精确截止	parse	提醒我明天三点之前交材料	time=03:00;deadline=true;beforeDay=false
+DUE-08	整日截止归属	parse	11月7日前交材料	date=2026-11-06;time=;beforeDay=true;deadline=true;title=11月7日前交材料;trigger=2026-11-06T18:30
+DUE-09	整日截止归属	parse	11月7日之前交材料	date=2026-11-06;title=11月7日前交材料;trigger=2026-11-06T18:30
+DUE-10	整日截止归属	parse	明天前交材料	date=2026-10-22;title=10月23日前交材料;trigger=2026-10-22T18:30
+DUE-11	整日截止归属	parse	2027年1月1日之前交材料	date=2026-12-31;title=1月1日前交材料;trigger=2026-12-31T18:30
+DUE-12	整日截止归属	parse	2028年3月1日前交材料	date=2028-02-29;title=3月1日前交材料
+DUE-13	明确提醒覆盖默认	parse	11月7日前交材料，提前30分钟提醒	date=2026-11-06;trigger=2026-11-06T23:30
+DUE-14	截止不误判	parse	提醒我周一晚上整理之前的材料	deadline=false;beforeDay=false;title=整理之前的材料
+DUE-15	截止不误判	parse	明天交材料	date=2026-10-23;beforeDay=false;deadline=false
+RNG-01	全角时间段	parse	明天14：00-20：00参加培训	date=2026-10-23;time=14:00;endTime=20:00;title=参加培训
+RNG-02	破折号时间段	parse	明天14:00—20:00参加培训	time=14:00;endTime=20:00;endDayOffset=0
+RNG-03	空格时间段	parse	明天14:00 - 20:00参加培训	time=14:00;endTime=20:00;title=参加培训
+RNG-04	全角数字时间段	parse	明天１４ ： ００ － ２０ ： ００参加培训	time=14:00;endTime=20:00;title=参加培训
+RNG-05	中文时间段	parse	明天下午两点到四点参加培训	time=14:00;endTime=16:00
+RNG-06	跨夜时间段	parse	明天23:00到次日01:00值班	time=23:00;endTime=01:00;endDayOffset=1
+RNG-07	单时刻不误判	parse	明天晚上18:30开会	time=18:30;endTime=;period=
+PRI-01	默认低优先级	parse	买牛奶	priority=2;date=;title=买牛奶
+PRI-02	高中低优先级	parse	明天交材料，高优先级	priority=0
+PRI-03	高中低优先级	parse	明天交材料，中优先级	priority=1
+PRI-04	高中低优先级	parse	明天交材料，低优先级	priority=2
+LOC-01	时间地点联合	parse	明天上午九点在B204教室开会	time=09:00;location=B204教室;title=开会
+LOC-02	时间地点联合	parse	明天下午两点在图书馆看书	time=14:00;location=图书馆;title=看书
+LOC-03	地点不误判	parse	明天讨论B204方案	location=;title=讨论B204方案
+NOT-01	本机通知提炼	notice	通知：明天上午09:00-10:30在教学楼301教室举行读书交流会。请同学们携带笔记本，准时参加。	date=2026-10-23;time=09:00;endTime=10:30;location=教学楼301教室;noteSource=true;remind=true;priority=2
+NOT-02	通知保留原文	notice	通知：10月24日14:00在B204举行课题讨论，请携带笔记本。	date=2026-10-24;time=14:00;location=B204;noteSource=true
+NOT-03	取消通知不创建提醒	notice	明天的培训取消，请等候后续通知。	date=;remind=false;noteSource=true
+NOT-04	不确定通知	notice	暂定明天下午进行课题讨论，具体时间另行通知。	date=;remind=false;noteSource=true
+NOT-05	无事项通知	notice	大家好，辛苦啦，谢谢大家！	date=;remind=false;title=待确认事项;noteSource=true
+NOT-06	旧通知提醒	notice	通知：2026-10-20下午14:00参加会议。	date=2026-10-20;remind=false;noteSource=true
+NOT-07	通知截止归属	notice	请大家11月7日前提交申请材料，需附报名表，谢谢配合。	date=2026-11-06;beforeDay=true;title=11月7日前提交申请材料;trigger=2026-11-06T18:30;noteSource=true
+MUL-01	多事件选择入口	multi	明天上午9:00参加阅读交流会；后天下午14:00参加培训。	count=2;0.date=2026-10-23;0.time=09:00;1.date=2026-10-24;1.time=14:00
+MUL-02	表格多事件	multi	10月24日9:30 | 阅读分享 | 地点：B201\n10月24日10:30 | 电脑培训 | 地点：B202\n11月1日20:00 | 结营考试 | 地点：B203	count=3;0.location=B201;1.time=10:30;2.date=2026-11-01;2.noteSource=true
+MUL-03	单时间段不拆多项	multi	明天14：00-20：00参加培训	count=0
+MUL-04	原文附录不重复	multi	10月24日9:30 | 阅读分享 | 地点：B201\n10月24日10:30 | 电脑培训 | 地点：B202\n\n识别原文（供核对）：\n10月24日9:30 | 阅读分享 | 地点：B201\n10月24日10:30 | 电脑培训 | 地点：B202	count=2
+MUL-05	歧义日期待核对	multi	[日期待核对]10月111:30 | 阅读分享 | 地点：B201\n11月7日15:00 | 待补充标题 | 地点：B202	count=2;0.date=;0.remind=false;1.title=待补充标题
+BAD-01	非法日期	error	2026-02-30参加培训	reject=true
+BAD-02	非法时刻	error	明天25:00开会	reject=true
+BAD-03	非法区间	error	明天14:00-13:00开会	reject=true

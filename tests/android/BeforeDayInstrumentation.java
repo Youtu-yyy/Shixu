@@ -1,0 +1,23 @@
+package cn.shixu.app.test;
+import android.app.*;
+import android.content.*;
+import android.graphics.Bitmap;
+import android.os.*;
+import cn.shixu.app.*;
+import java.io.*;
+import java.time.*;
+import java.util.*;
+
+public final class BeforeDayInstrumentation extends SmokeInstrumentation {
+    @Override public void onStart(){Context c=getTargetContext();Bundle results=new Bundle();Set<Long> baseline=new HashSet<>();String marker="自动测试日期前";int outcome=Activity.RESULT_OK;try{
+        try(Store store=new Store(c)){for(Task t:store.all())baseline.add(t.id);}
+        startActivitySync(new Intent(c,MainActivity.class).setAction(OcrActivity.CREATE).putExtra(OcrActivity.TEXT,"11月7日之前"+marker+"交材料").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));waitForIdleSync();check(await("新建事项")&&has("11月7日前"+marker+"交材料"),"Original deadline information stays in title");check(has("2026-11-06")&&has("当天结束前"),"Date-only before event belongs to previous day");showReminder();check(has("11月6日 18:30"),"Reminder stays on assigned evening, not two evenings early");capture(c,"before-day-editor.png");click("保存事项");check(await("事项清单"),"Before-day task saves in one step");
+        Task saved=null;try(Store store=new Store(c)){for(Task t:store.all())if(!baseline.contains(t.id)&&t.title.contains(marker))saved=t;}check(saved!=null&&saved.beforeDay&&saved.date.equals("2026-11-06"),"Assignment flag persists");long trigger=saved.triggerMillis();
+        startActivitySync(new Intent(c,MainActivity.class).putExtra("taskId",saved.id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));waitForIdleSync();check(await("编辑事项"),"Before-day task can reopen");click("保存事项");try(Store store=new Store(c)){Task t=store.find(saved.id);check(t.date.equals("2026-11-06")&&t.triggerMillis()==trigger,"Repeated edit/save never shifts day again");check(t.title.equals("11月7日前"+marker+"交材料"),"Title prefix is not duplicated");check(CalendarAgenda.month(Arrays.asList(t),YearMonth.of(2026,11)).get(0).date.equals("2026-11-06"),"Calendar uses previous day");check(WidgetAgenda.select(Arrays.asList(t),LocalDate.of(2026,11,6),WidgetAgenda.UPCOMING).size()==1,"Today/tomorrow widget includes assigned day");}
+        try(Store store=new Store(c)){org.json.JSONObject o=new org.json.JSONObject();o.put("title",marker+"旧版交材料");o.put("date","2026-11-07");o.put("deadline",true);o.put("remind",true);o.put("lead",330);o.put("reminderEveningTime","18:30");ContentValues v=new ContentValues();v.put("payload",o.toString());long id=store.getWritableDatabase().insertOrThrow("tasks",null,v);Task t=store.find(id);check(t.beforeDay&&t.date.equals("2026-11-06")&&t.title.startsWith("11月7日前"),"Legacy date-only deadline is read with new assignment");check(t.triggerMillis()==trigger,"Legacy reminder instant remains unchanged");check(store.find(id).date.equals("2026-11-06"),"Legacy reads are idempotent");store.save(t);check(store.find(id).date.equals("2026-11-06"),"Legacy save marks new format and does not shift twice");}
+        startActivitySync(new Intent(c,MainActivity.class).setAction(OcrActivity.CREATE).putExtra(OcrActivity.TEXT,"11月7日中午前"+marker+"归还图书").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));waitForIdleSync();check(await("新建事项")&&has("2026-11-07")&&has("11:35前"),"Timed deadline retains original day");click("取消");
+        startActivitySync(new Intent(c,MainActivity.class).setAction(OcrActivity.CREATE).putExtra(OcrActivity.TEXT,"提醒我周一晚上之前交材料").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));waitForIdleSync();check(await("新建事项")&&has("18:30前"),"Prefixed evening-before phrase is a deadline in shared editor");showReminder();check(has("13:30"),"Evening-before reminder uses afternoon start");capture(c,"period-before-editor.png");click("取消");
+        Bitmap guide=TutorialSlides.render(3,LocalDateTime.of(2026,10,22,10,0),TimeParser.DEFAULTS);try(FileOutputStream out=new FileOutputStream(new File(c.getExternalFilesDir(null),"before-day-tutorial.png"))){guide.compress(Bitmap.CompressFormat.PNG,100,out);}guide.recycle();check(TutorialContent.CAPTIONS[3].contains("11月6日")&&TutorialContent.CAPTIONS[3].contains("11月7日前"),"Tutorial explains assignment and preserved title");
+        results.putString("result","PASS: "+checks+" before-day UI, title, calendar/widget, reminder instant, legacy compatibility and tutorial checks");
+    }catch(Throwable e){StringWriter trace=new StringWriter();e.printStackTrace(new PrintWriter(trace));results.putString("error",trace.toString());outcome=Activity.RESULT_CANCELED;}finally{try(Store store=new Store(c)){for(Task t:store.all())if(!baseline.contains(t.id)&&t.title.contains(marker)){Reminders.cancel(c,t);store.delete(t.id);}}}finish(outcome,results);}
+}

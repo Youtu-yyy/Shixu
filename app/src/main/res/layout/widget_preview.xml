@@ -1,0 +1,36 @@
+<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@drawable/widget_background" android:padding="10dp" xmlns:android="http://schemas.android.com/apk/res/android">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+    <LinearLayout android:id="@+id/widget_open" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:contentDescription="打开拾序">
+      <TextView android:id="@+id/widget_brand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="拾序 · 待办" android:textSize="18sp" android:textStyle="bold" android:textColor="#20283F" />
+      <TextView android:id="@+id/widget_date" android:text="今明事项 · 示例预览" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="11sp" android:textColor="#828AA0" />
+    </LinearLayout>
+    <TextView android:id="@+id/widget_refresh" android:layout_width="40dp" android:layout_height="40dp" android:gravity="center" android:text="↻" android:textSize="24sp" android:textColor="#4561EE" android:contentDescription="刷新桌面待办" />
+    <TextView android:id="@+id/widget_add" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:background="@drawable/widget_add_background" android:text="＋" android:textSize="23sp" android:textColor="#FFFFFF" android:contentDescription="新建事项" />
+  </LinearLayout>
+  <TextView android:id="@+id/widget_count" android:text="2 项事项" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:layout_marginBottom="4dp" android:textColor="#4561EE" android:textStyle="bold" android:textSize="11sp" />
+  <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_task_root" android:layout_width="match_parent" android:layout_height="0dp" android:orientation="horizontal" android:gravity="center_vertical" android:padding="4dp" android:background="@drawable/widget_row_background" android:layout_marginBottom="5dp" android:layout_weight="1">
+      <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+        <TextView android:id="@+id/widget_task_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textStyle="bold" android:textColor="#20283F" android:maxLines="1" android:ellipsize="end" android:text="准备会议材料" />
+        <TextView android:id="@+id/widget_task_time" android:ellipsize="end" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:text="今天 · 14:00—15:00" />
+        <TextView android:id="@+id/widget_task_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+        <TextView android:id="@+id/widget_task_reminder" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+      </LinearLayout>
+      <TextView android:id="@+id/widget_complete" android:layout_width="40dp" android:layout_height="44dp" android:gravity="center" android:textSize="24sp" android:textColor="#828AA0" android:text="○" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/preview_done_widget_task_root" android:layout_width="match_parent" android:layout_height="0dp" android:orientation="horizontal" android:gravity="center_vertical" android:padding="4dp" android:background="@drawable/widget_row_background" android:layout_marginBottom="5dp" android:layout_weight="1">
+      <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+        <TextView android:id="@+id/preview_done_widget_task_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textStyle="bold" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:text="@string/widget_preview_completed" />
+        <TextView android:id="@+id/preview_done_widget_task_time" android:ellipsize="end" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:text="明天 · 09:00" />
+        <TextView android:id="@+id/preview_done_widget_task_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+        <TextView android:id="@+id/preview_done_widget_task_reminder" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="10sp" android:textColor="#828AA0" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+      </LinearLayout>
+      <TextView android:id="@+id/preview_done_widget_complete" android:layout_width="40dp" android:layout_height="44dp" android:gravity="center" android:textSize="24sp" android:textColor="#278773" android:text="✓" />
+    </LinearLayout>
+  </LinearLayout>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:gravity="center_vertical">
+    <TextView android:id="@+id/widget_upcoming" android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1" android:gravity="center" android:text="今明事项" android:background="@drawable/widget_tab_selected" android:textColor="#4561EE" android:textSize="12sp" android:textStyle="bold" />
+    <TextView android:id="@+id/widget_all" android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1" android:gravity="center" android:text="全部事项" android:textColor="#828AA0" android:textSize="12sp" android:textStyle="bold" />
+  </LinearLayout>
+  <TextView android:id="@+id/widget_hint" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="3dp" android:textColor="#828AA0" android:textSize="9sp" android:text="示例内容 · 添加后显示你的事项" />
+</LinearLayout>

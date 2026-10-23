@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="14dp" android:background="@drawable/widget_background">
+    <LinearLayout android:id="@+id/widget_content" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+        <LinearLayout android:id="@+id/widget_open" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:contentDescription="打开拾序">
+            <TextView android:id="@+id/widget_brand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="拾序 · 待办" android:textSize="18sp" android:textStyle="bold" android:textColor="#20283F"/>
+            <TextView android:id="@+id/widget_date" android:text="按开始时间排序" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="11sp" android:textColor="#828AA0"/>
+        </LinearLayout>
+        <TextView android:id="@+id/widget_refresh" android:layout_width="40dp" android:layout_height="40dp" android:gravity="center" android:text="↻" android:textSize="24sp" android:textColor="#4561EE" android:contentDescription="刷新桌面待办"/>
+        <TextView android:id="@+id/widget_add" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:background="@drawable/widget_add_background" android:text="＋" android:textSize="23sp" android:textColor="#FFFFFF" android:contentDescription="新建事项"/>
+    </LinearLayout>
+    <TextView android:id="@+id/widget_count" android:text="未完成事项" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="4dp" android:textColor="#4561EE" android:textStyle="bold" android:textSize="11sp"/>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <ListView android:id="@+id/widget_list" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@android:color/transparent" android:dividerHeight="5dp" android:scrollbars="vertical"/>
+        <TextView android:id="@+id/widget_empty" android:text="添加后显示你的未完成事项" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:padding="8dp" android:textSize="12sp" android:textColor="#828AA0"/>
+    </FrameLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:gravity="center_vertical">
+        <TextView android:id="@+id/widget_upcoming" android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1" android:gravity="center" android:text="今明事项" android:background="@drawable/widget_tab_selected" android:textColor="#4561EE" android:textSize="12sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/widget_all" android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1" android:gravity="center" android:text="全部事项" android:textColor="#828AA0" android:textSize="12sp" android:textStyle="bold"/>
+    </LinearLayout>
+    <TextView android:id="@+id/widget_hint" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="3dp" android:textColor="#828AA0" android:textSize="9sp"/>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/widget_confirmation" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="12dp" android:orientation="vertical" android:gravity="center_vertical" android:visibility="gone" android:clickable="true" android:background="@drawable/widget_row_background">
+        <TextView android:id="@+id/widget_confirm_heading" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:textStyle="bold" android:textColor="#20283F"/>
+        <TextView android:id="@+id/widget_confirm_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textSize="14sp" android:textColor="#20283F" android:maxLines="2" android:ellipsize="end"/>
+        <TextView android:id="@+id/widget_confirm_note" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:textSize="11sp" android:textColor="#828AA0" android:maxLines="2" android:ellipsize="end"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp" android:layout_marginTop="12dp">
+            <TextView android:id="@+id/widget_confirm_no" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="取消" android:textColor="#4561EE" android:textSize="13sp" android:background="@drawable/widget_tab_selected"/>
+            <TextView android:id="@+id/widget_confirm_yes" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginStart="8dp" android:gravity="center" android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold" android:background="@drawable/widget_add_background"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,2 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@layout/widget_*,@drawable/widget_*,@xml/todo_widget*" />

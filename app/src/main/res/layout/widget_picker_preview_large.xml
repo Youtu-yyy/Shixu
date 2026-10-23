@@ -1,0 +1,6 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp" android:layout_height="320dp">
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:src="@drawable/widget_picker_preview_large" android:scaleType="fitCenter"
+        android:contentDescription="拾序桌面待办预览：今明事项、完成划线和全部事项切换" />
+</FrameLayout>
