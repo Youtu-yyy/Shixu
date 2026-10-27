@@ -67,13 +67,39 @@ NOON-09	中午时间段跨十二点	parse	明天中午11点到1点吃饭	time=11
 NOON-10	中午时间段明确结束时段	parse	明天中午11点到下午1点吃饭	time=11:00;endTime=13:00;endDayOffset=0
 NOON-11	中午24小时区间	parse	明天中午11:30-13:30吃饭	time=11:30;endTime=13:30;endDayOffset=0
 NOON-12	晚上十一点保留	parse	明天晚上11点整理书架	time=23:00;title=整理书架
-ROOM-01	至字地点	parse	10月27日13:30至JQZ406参加第一场读书会议	date=2026-10-27;time=13:30;location=JQZ406;title=参加第一场读书会议
+ROOM-01	至字地点	parse	10月27日13:30至BLD508参加第一次小组会议	date=2026-10-27;time=13:30;location=BLD508;title=参加第一次小组会议
 ROOM-02	去字地点	parse	明天下午两点去教学楼301教室参加讨论	date=2026-10-23;time=14:00;location=教学楼301教室;title=参加讨论
 ROOM-03	到字地点	parse	明天上午九点到B204开会	time=09:00;location=B204;title=开会
 ROOM-04	地点不误判发送目标	parse	明天下午两点发材料至本群	location=;title=发材料至本群
-ROOM-05	地点不误判普通代码	parse	明天下午两点讨论JQZ406方案	location=;title=讨论JQZ406方案
-ROOM-06	通知标题去补充说明	notice	【10 月 27 日（下周二）13:30-14:15】\n至JQZ406参加第一场读书会议（具体参加名单稍后发布，请提前准备阅读材料）～🌹	date=2026-10-27;time=13:30;endTime=14:15;location=JQZ406;title=参加第一场读书会议;noteSource=true
-ROOM-07	OCR断行补充说明	notice	【10月27日（下周二）13:30-14:15】\n至JQZ406参加第一场读书会议（具\n体参加名单稍后发布，请提前准备\n阅读材料）～🌹	date=2026-10-27;time=13:30;endTime=14:15;location=JQZ406;title=参加第一场读书会议;noteSource=true
-ROOM-08	地点代码空格	parse	明天15:00至 JQZ 406 参加会议	time=15:00;location=JQZ406;title=参加会议
-ROOM-09	实际OCR教室零字母混淆	notice	【10月27日(下周二)13:30-14:15]至JQZ4O6参加第一场读书会议(具体参加名单稍后发布,请提前准备阅读材料)~9	date=2026-10-27;time=13:30;endTime=14:15;location=JQZ406;title=参加第一场读书会议;noteSource=true
+ROOM-05	地点不误判普通代码	parse	明天下午两点讨论BLD508方案	location=;title=讨论BLD508方案
+ROOM-06	通知标题去补充说明	notice	【10 月 27 日（下周二）13:30-14:15】\n至BLD508参加第一次小组会议（具体参与名单将在学院核查后发至本群，项目成员的同学理论上来说都是需要参加的）～🌹	date=2026-10-27;time=13:30;endTime=14:15;location=BLD508;title=参加第一次小组会议;noteSource=true
+ROOM-07	OCR断行补充说明	notice	【10月27日（下周二）13:30-14:15】\n至BLD508参加第一次小组会议（具\n体参与名单将在学院核查后发至本\n群，项目成员的同学理论上来说都是\n需要参加的）～🌹	date=2026-10-27;time=13:30;endTime=14:15;location=BLD508;title=参加第一次小组会议;noteSource=true
+ROOM-08	地点代码空格	parse	明天15:00至 BLD 508 参加会议	time=15:00;location=BLD508;title=参加会议
+ROOM-09	模拟OCR教室零字母混淆	notice	【10月27日(下周二)13:30-14:15]至BLD5O8参加第一次小组会议(具体参与名单将在学院核查后发至本群,项目成员的同学理论上来说部是需要参加的)~9	date=2026-10-27;time=13:30;endTime=14:15;location=BLD508;title=参加第一次小组会议;noteSource=true
 ROOM-10	有意义括号保留	notice	通知：明天下午两点在B204参加项目研讨（第二场），请同学们按时参加，本次研讨将讨论下一阶段研究计划。	date=2026-10-23;time=14:00;location=B204;title=参加项目研讨（第二场）;noteSource=true
+CHANGE-01	会议变更通知原文	notice	【会议时间更改】 @所有人 \n因周二下午部分同学综合课程讨论有冲突，第一次学习小组会议时间地点调整如下：\n时间：10月27日（周二）11:45-12:30\n地点：示例校区BLD207\n\n我们争取速战速决～辛苦同学们[坏笑]	date=2026-10-27;time=11:45;endTime=12:30;location=示例校区BLD207;title=参加第一次学习小组会议;noteSource=true;remind=true
+CHANGE-02	变更原因不拆成多事项	multi	【会议时间更改】 @所有人 \n因周二下午部分同学综合课程讨论有冲突，第一次学习小组会议时间地点调整如下：\n时间：10月27日（周二）11:45-12:30\n地点：示例校区BLD207\n\n我们争取速战速决～辛苦同学们[坏笑]	count=0
+CHANGE-03	变更字段与背景日期隔离	notice	因10月26日下午讨论有冲突，第一次读书会议时间地点调整如下：\n时间：10月27日（周二）11:45-12:30\n地点：教学楼B207\n辛苦大家。	date=2026-10-27;time=11:45;endTime=12:30;location=教学楼B207;title=参加第一次读书会议;noteSource=true
+CHANGE-04	变更地点在时间前	notice	通知：第一次读书会议时间及地点更改如下：\n地点：教学楼B207\n时间：10月27日11:45-12:30	date=2026-10-27;time=11:45;endTime=12:30;location=教学楼B207;title=参加第一次读书会议
+CHANGE-05	普通通知连续时间地点字段	notice	通知：请参加第一次读书会议\n时间：10月27日11:45-12:30\n地点：教学楼B207	date=2026-10-27;time=11:45;endTime=12:30;location=教学楼B207;title=参加第一次读书会议
+CHANGE-06	无明确时间的变更仍待核对	notice	通知：第一次读书会议推迟，时间另行通知，请大家关注后续消息，不要按原时间到场。	date=;remind=false;noteSource=true
+CHANGE-07	暂定安排仍待核对	notice	通知：第一次读书会议时间暂定如下：\n时间：10月27日11:45-12:30\n地点：教学楼B207	date=;remind=false;noteSource=true
+CHANGE-08	旧日期不作为更改会议上下文	notice	因10月26日临时停电，第一次读书会议时间地点调整如下：\n时间：10月27日11:45-12:30\n地点：教学楼B207	date=2026-10-27;time=11:45;endTime=12:30;location=教学楼B207;title=参加第一次读书会议
+NOTICE-11	点分日期会议地点原文	notice	谢谢各位同学。初次会议时间：11.03周二下午2:30-4:30； 地点：示例校区教学大楼西202会议室。 期待与各位的加入，一起交流学习。	date=2026-11-03;time=14:30;endTime=16:30;location=示例校区教学大楼西202会议室;title=参加初次会议;noteSource=true
+NOTICE-12	大会日期与问卷原文	notice	@所有人 各位同学：年级大会时间定于2026年11月16日（周一），请大家填写以下问卷确认自己在校情况，原则上大家都需要在校，非在校生需要办理委托办理～[玫瑰]\n问卷链接➡️https://example.org/forms/demo/邀你填写「年级大会时间确认」	date=2026-11-16;time=;location=;title=参加年级大会;noteSource=true;remind=false
+NOTICE-13	日期标签点分日期	parse	时间：11.03周二下午2:30-4:30参加会议	date=2026-11-03;time=14:30;endTime=16:30
+NOTICE-14	点分日期星期有空格	notice	通知：初次会议时间：11.03 周二下午2:30-4:30；地点：教学楼西202会议室。期待交流学习。	date=2026-11-03;time=14:30;endTime=16:30;location=教学楼西202会议室;title=参加初次会议
+NOTICE-15	会议室字段不单独作事件	notice	通知：初次会议时间：11月3日下午14:30-16:30；地点：教学楼西202会议室。期待交流学习。	date=2026-11-03;time=14:30;endTime=16:30;location=教学楼西202会议室;title=参加初次会议
+NOTICE-16	日期大会优于委托办理说明	notice	各位同学：年级大会时间定于2026年11月16日（周一），请大家填写问卷确认在校情况，非在校同学需要办理委托手续。	date=2026-11-16;time=;title=参加年级大会;remind=false;noteSource=true
+NOTICE-17	链接数字不作为日期	notice	通知：年级大会时间定于2026年11月16日，请大家填写问卷。问卷链接：https://example.org/2027/12/25/报名	date=2026-11-16;title=参加年级大会;time=;noteSource=true
+NOTICE-18	普通小数金额不变日期	parse	购买11.03元的文具	date=;title=购买11.03元的文具
+NOTICE-19	软件版本不作日期	parse	检查版本11.03更新	date=;title=检查版本11.03更新
+NOTICE-20	暂定大会不自动定日期	notice	通知：年级大会时间暂定于2026年11月16日，请大家关注后续通知，需要办理手续的同学请联系班委。	date=;remind=false;noteSource=true
+NOTICE-21	通知不误拆多事件	multi	谢谢各位同学。初次会议时间：11.03周二下午2:30-4:30； 地点：示例校区教学大楼西202会议室。 期待与各位的加入，一起交流学习。	count=0
+NOTICE-22	通知不误拆多事件	multi	@所有人 各位同学：年级大会时间定于2026年11月16日（周一），请大家填写以下问卷确认自己在校情况，原则上大家都需要在校，非在校生需要办理委托办理～[玫瑰]\n问卷链接➡️https://example.org/forms/demo/邀你填写「年级大会时间确认」	count=0
+MULTI-PLAN-01	附带争取日期不产生第二事件	multi	@所有人 10/22晚上18:30在b2201，示例老师请两个综合课程课题的同学进行讨论，我争取明天给大家梳理一下接下来两周要做的事情，辛苦大家尽快推进，到时候准备好 PPT 汇报相关进展	count=0
+MULTI-PLAN-02	单条课题通知保留主要会议	notice	@所有人 10/22晚上18:30在b2201，示例老师请两个综合课程课题的同学进行讨论，我争取明天给大家梳理一下接下来两周要做的事情，辛苦大家尽快推进，到时候准备好 PPT 汇报相关进展	date=2026-10-22;time=18:30;location=b2201;title=参加课题讨论;noteSource=true
+MULTI-PLAN-03	暂定补充不拆第二项	multi	明天14:00参加阅读讨论，暂定后天15:00参加培训，具体安排另行通知。	count=0
+MULTI-PLAN-04	负责人发送资料不当成参会	multi	明天14:00参加阅读讨论，老师后天会发送培训材料。	count=0
+MULTI-PLAN-05	确定多事项仍可拆分	multi	明天14:00参加阅读讨论，后天15:00参加培训。	count=2;0.date=2026-10-23;1.date=2026-10-24
+MULTI-PLAN-06	取消安排不成为新候选	multi	明天14:00参加阅读讨论，后天15:00的培训取消。	count=0
