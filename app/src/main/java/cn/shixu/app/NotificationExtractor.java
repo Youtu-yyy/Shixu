@@ -6,14 +6,17 @@ import java.util.regex.*;
 
 /** Conservative local notice extraction. Always retains the source for human review. */
 public final class NotificationExtractor {
-    private static final String ACTION="提交|上交|交齐|交材料|交作业|完成|缴费|报名|签到|参加|开会|会议|讨论|讲座|上课|考试|答辩|面试|领取|集合|培训|汇报|办理|归还|报送|交给";
+    private static final String ACTION="提交|上交|交齐|交材料|交作业|完成|缴费|报名|签到|参加|开会|会议|大会|讨论|讲座|上课|考试|答辩|面试|领取|集合|培训|汇报|办理|归还|报送|交给";
     private static final String TEMPORAL="\\d{1,4}\\s*[月/.-]\\s*\\d{1,2}|今天|明天|后天|今晚|明晚|周[一二三四五六日天]|星期[一二三四五六日天]|\\d{1,2}[:：]\\d{2}|[零一二三四五六七八九十两\\d]+点|上午|下午|中午|晚上|早上|截止";
     private static final String TENTATIVE="争取|可能|暂定|待定|另行通知|拟于|计划|预计|取消|推迟|延期|不再|不用|无需";
+    private static final Pattern CHANGED_EVENT=Pattern.compile("^(.{1,40}?(?:会议|讨论|讲座|培训|考试|答辩|面试|汇报))(?:的)?(?:时间(?:[和及、]?地点)?|地点)?(?:调整|更改|变更)(?:如下|为)?[：:]?$");
+    private static final Pattern EVENT_TIME=Pattern.compile("(?:^|[：:])\\s*([^，,。；;：:]{1,30}?(?:大会|会议|讲座|培训|考试|答辩|面试))\\s*(?:时间|日期)\\s*(?:定于|确定为|安排在|为|[：:])");
     public static final class Result {
         public Task task;
         public String location="",warning="";
     }
     private static boolean has(String text,String pattern){return Pattern.compile(pattern,Pattern.CASE_INSENSITIVE).matcher(text).find();}
+    static boolean tentative(String text){return has(text,TENTATIVE)||has(text,"(?:我|老师|负责人|主办方)(?:会|将|明天|今天|大后天|后天|负责).*?(?:整理|梳理|发给|发送)");}
     private static String clean(String text){return text.replaceAll("@[所有人全体成员]+[\\s\\p{Zs}]*", "").replaceAll("^[\\s\\p{Zs}【\\[]*(?:通知|温馨提示|重要通知)[】\\]:：\\s]*", "").trim();}
     public static boolean looksLikeNotice(String text){return (text.length()>45&&(has(text,ACTION)||has(text,"通知|请各|请同学|请大家")))||(text.length()>12&&has(text,"@所有人|@全体成员|通知[：:]|请同学|请大家|请各位")&&has(text,ACTION));}
     private static String location(String text){
@@ -45,12 +48,16 @@ public final class NotificationExtractor {
         // Explanatory brackets may contain hard OCR line breaks; keep them in notes,
         // but remove them before splitting the actionable sentence into clauses.
         text=text.replaceAll("[（(]\\s*(?:具\\s*体|名单|请|备注|注意|说明)[^）)]*[）)]", "，");
+        text=text.replaceAll("https?://[^\\s，,。；;！!]+", "");
         String[] clauses=text.split("[，,。；;！!\\r\\n]+",-1);
         int best=-1,bestScore=Integer.MIN_VALUE,actions=0;boolean certain=false;
         for(int i=0;i<clauses.length;i++){
-            String c=clauses[i].trim();if(c.isEmpty()||!has(c,ACTION))continue;
-            actions++;boolean tentative=has(c,TENTATIVE)||has(c,"(?:我|老师|负责人|主办方)(?:会|将|明天|今天|负责).*?(?:整理|梳理|发给|发送)");
+            String c=clauses[i].trim();if(c.isEmpty()||has(c,"^(?:地点|地址)[：:]")||!has(c,ACTION))continue;
+            actions++;boolean tentative=tentative(c);
             int score=10+(has(c,TEMPORAL)?8:0)+(has(c,"请|务必|必须|要求|定于|召开|举行")?5:0);
+            // A confirmed replacement followed by explicit fields outranks the conflict explanation.
+            if(CHANGED_EVENT.matcher(c).matches()&&i+1<clauses.length&&has(clauses[i+1].trim(),"^(?:时间|日期|地点|地址)[：:]"))score+=30;
+            if(EVENT_TIME.matcher(c).find()&&has(c,TEMPORAL))score+=15;
             if(i>0&&has(clauses[i-1],TEMPORAL)&&!has(clauses[i-1],ACTION))score+=8;
             if(tentative)score-=40;else certain=true;
             if(score>bestScore){bestScore=score;best=i;}
@@ -59,14 +66,19 @@ public final class NotificationExtractor {
         if(best<0){result.task=new Task();result.task.title="待确认事项";warnings.add("未找到明确的主要事项，请补充标题和时间。");}
         else{
             String selected=clauses[best].trim(),context="";
+            Matcher changed=CHANGED_EVENT.matcher(selected);
+            boolean replacement=changed.matches();
             // Only inherit nearby date/place context without another action or uncertain wording.
-            for(int n=best-1;n>=Math.max(0,best-2);n--){String before=clauses[n].trim();if(has(before,ACTION)||has(before,TENTATIVE))break;if(has(before,TEMPORAL)||!location(before).isEmpty())context=before+"，"+context;}
-            if(best+1<clauses.length){String after=clauses[best+1].trim();if(has(after,"^(?:时间|地点)[：:]")&&!has(after,ACTION)&&!has(after,TENTATIVE))context+= "，"+after;}
-            String evidence=context+selected;
+            for(int n=best-1;!replacement&&n>=Math.max(0,best-2);n--){String before=clauses[n].trim();if(has(before,ACTION)||has(before,TENTATIVE))break;if(has(before,TEMPORAL)||!location(before).isEmpty())context=before+"，"+context;}
+            for(int n=best+1;n<clauses.length;n++){String after=clauses[n].trim();if(after.isEmpty())continue;if(!has(after,"^(?:时间|日期|地点|地址)[：:]")||has(after,TENTATIVE))break;context+="，"+after;}
+            if(replacement)selected="参加"+changed.group(1);
+            Matcher eventTime=EVENT_TIME.matcher(selected);
+            String namedEvent=eventTime.find()?eventTime.group(1).trim():"";
+            String evidence=context.isEmpty()?selected:context+"，"+selected;
             try{result.task=TimeParser.parse(evidence,now,ranges).task;}
             catch(IllegalArgumentException|DateTimeException invalid){result.task=new Task();warnings.add("通知中的日期或时间不合法，请手动确认。");}
             result.location=location(evidence);result.task.location=result.location;
-            result.task.title=title(result.task.title,evidence,result.location);result.task.refreshBeforeTitle();
+            result.task.title=namedEvent.isEmpty()?title(result.task.title,evidence,result.location):"参加"+namedEvent;result.task.refreshBeforeTitle();
             if(!certain||has(selected,TENTATIVE)){result.task.date="";result.task.time="";result.task.endTime="";result.task.period="";result.task.deadline=false;warnings.add("主要安排含暂定、取消或变更表述，未自动安排时间，请核对。");}
             if(result.task.date.isEmpty())warnings.add("主要事项未识别到日期，请补充。");
             if(has(evidence,"今天|明天|后天|周[一二三四五六日天]|星期"))warnings.add("相对日期按当前日期计算；旧通知请核对发送日期。");

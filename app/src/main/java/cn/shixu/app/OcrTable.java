@@ -28,7 +28,7 @@ public final class OcrTable {
     /** Empty means this is not a reliably recognized table; caller keeps ordinary OCR text. */
     public static String reconstruct(List<Cell> lines,List<Cell> elements){
         Cell date=null,title=null,place=null,speaker=null;
-        for(Cell c:lines){String s=compact(c.text);if(s.matches("时间|日期|日期时间"))date=c;else if(s.matches("内容|活动内容|活动安排|事项"))title=c;else if(s.matches("地点|活动地点"))place=c;else if(s.matches("主讲人|主讲|负责人"))speaker=c;}
+        for(Cell c:lines){String s=compact(c.text).replace('內','内').replace('時','时').replace('間','间').replace('點','点').replace('講','讲').replace('負','负').replace('責','责').replace('動','动').replace('項','项');if(s.matches("时间|日期|日期时间"))date=c;else if(s.matches("内容|活动内容|活动安排|事项"))title=c;else if(s.matches("地点|活动地点"))place=c;else if(s.matches("主讲人|主讲|负责人"))speaker=c;}
         // Glare often damages the first header. Other aligned headers still identify its column.
         if(date==null&&title!=null&&place!=null)for(Cell c:lines)if(c.cx()<title.cx()&&Math.abs(c.cy()-title.cy())<Math.max(c.h,title.h)*2&&!DATE.matcher(compact(c.text)).find()){date=c;break;}
         if(date==null||title==null||place==null||date.cx()>=title.cx()||title.cx()>=place.cx())return "";

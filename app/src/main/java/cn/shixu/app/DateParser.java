@@ -26,8 +26,8 @@ final class DateParser {
     }
     private static boolean clauseStart(String prefix){return prefix.matches("(?s).*(?:^|[，,。;；!！?？\\n])[\\s\\p{Zs}]*")||prefix.trim().isEmpty();}
     private static boolean dateContext(String prefix,String suffix){
-        return clauseStart(prefix)||prefix.matches("(?s).*(?:日期|截止|定于|安排在|在|于|到)[:：]?[\\s\\p{Zs}]*")
-            ||suffix.matches("(?s)^[\\s\\p{Zs}]*(?:前|之前|以前|日|号|早上|上午|中午|下午|晚上|凌晨|\\d{1,2}[点时:：]).*");
+        return clauseStart(prefix)||prefix.matches("(?s).*(?:日期|时间|截止|定于|安排在|在|于|到)[:：]?[\\s\\p{Zs}]*")
+            ||suffix.matches("(?s)^[\\s\\p{Zs}]*(?:前|之前|以前|日|号|(?:周|星期)[一二三四五六日天]|早上|上午|中午|下午|晚上|凌晨|\\d{1,2}[点时:：]).*");
     }
     private static boolean versionContext(String prefix){return prefix.matches("(?is).*(?:版本|版|version)[:：]?"+W);}
     static DateMatch extract(String text,LocalDate today){

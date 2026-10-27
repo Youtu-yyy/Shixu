@@ -9,6 +9,7 @@ public final class WidgetAgenda {
         List<Task> selected=new ArrayList<>();
         LocalDate tomorrow=today.plusDays(1);
         for(Task task:tasks)if(range==ALL||task.date.equals(today.toString())||task.date.equals(tomorrow.toString()))selected.add(task.copy());
-        selected.sort(TaskOrder.DAY_COMPLETION);return selected;
+        // All tasks form two time-sorted groups; upcoming keeps completion within each day.
+        selected.sort(range==ALL?Comparator.comparing((Task t)->t.done).thenComparing(TaskOrder.TIME):TaskOrder.DAY_COMPLETION);return selected;
     }
 }

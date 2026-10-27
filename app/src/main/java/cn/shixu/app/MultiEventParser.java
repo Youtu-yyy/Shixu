@@ -21,7 +21,14 @@ public final class MultiEventParser {
         // Each candidate needs its own date plus substantive event text. End clocks are never new events.
         Matcher dates=ANCHOR.matcher(text);List<Integer> positions=new ArrayList<>();
         boolean structured=Pattern.compile("(?m)^.*\\|.*\\|\\s*地点[:：]").matcher(text).find();
-        if(structured){int offset=0;for(String line:text.split("\n",-1)){if(line.contains("|")&&(ANCHOR.matcher(line).find()||line.startsWith("[日期待核对]")))positions.add(offset);offset+=line.length()+1;}}else while(dates.find())positions.add(dates.start());
+        if(structured){int offset=0;for(String line:text.split("\n",-1)){if(line.contains("|")&&(ANCHOR.matcher(line).find()||line.startsWith("[日期待核对]")))positions.add(offset);offset+=line.length()+1;}}else while(dates.find()){
+            // Inspect the complete clause before dropping its prefix: “争取明天...” is
+            // supporting context, not a second confirmed event merely because it has a date.
+            int left=dates.start(),right=dates.end();String delimiters="，,。；;！!\r\n";
+            while(left>0&&delimiters.indexOf(text.charAt(left-1))<0)left--;
+            while(right<text.length()&&delimiters.indexOf(text.charAt(right))<0)right++;
+            if(!NotificationExtractor.tentative(text.substring(left,right)))positions.add(dates.start());
+        }
         if(positions.size()<2||positions.size()>100)return out;
         for(int i=0;i<positions.size();i++){
             String part=text.substring(positions.get(i),i+1==positions.size()?text.length():positions.get(i+1)).replaceAll("[，,。；;\\s]+$","").trim();
