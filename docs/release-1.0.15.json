@@ -1,0 +1,182 @@
+{
+  "version": "1.0.15",
+  "versionCode": 58,
+  "date": "2026-10-27",
+  "madeBy": "OpenAI GPT",
+  "coreAssertions": 1063,
+  "historyCases": 104,
+  "historyAssertions": 340,
+  "priorFullAudit": {
+    "deviceGroups": 20,
+    "deviceAssertions": 775,
+    "groups": [
+      {
+        "group": "Noon",
+        "status": "PASS",
+        "checks": 19
+      },
+      {
+        "group": "SameTime",
+        "status": "PASS",
+        "checks": 18
+      },
+      {
+        "group": "BeforeDay",
+        "status": "PASS",
+        "checks": 20
+      },
+      {
+        "group": "Inline",
+        "status": "PASS",
+        "checks": 25
+      },
+      {
+        "group": "Snooze",
+        "status": "PASS",
+        "checks": 21
+      },
+      {
+        "group": "Ocr",
+        "status": "PASS",
+        "checks": 31
+      },
+      {
+        "group": "Batch",
+        "status": "PASS",
+        "checks": 27
+      },
+      {
+        "group": "WidgetPreview",
+        "status": "PASS",
+        "checks": 21
+      },
+      {
+        "group": "Smoke",
+        "status": "PASS",
+        "checks": 193
+      },
+      {
+        "group": "Notice",
+        "status": "PASS",
+        "checks": 52
+      },
+      {
+        "group": "AuditOcr",
+        "status": "PASS",
+        "checks": 67
+      },
+      {
+        "group": "Week",
+        "status": "PASS",
+        "checks": 24
+      },
+      {
+        "group": "Tutorial",
+        "status": "PASS",
+        "checks": 33
+      },
+      {
+        "group": "Settings",
+        "status": "PASS",
+        "checks": 10
+      },
+      {
+        "group": "Widget",
+        "status": "PASS",
+        "checks": 107
+      },
+      {
+        "group": "Alert",
+        "status": "PASS",
+        "checks": 52
+      },
+      {
+        "group": "NoticePhoto",
+        "status": "PASS",
+        "checks": 14
+      },
+      {
+        "group": "Compact",
+        "status": "PASS",
+        "checks": 15
+      },
+      {
+        "group": "CoverInstall",
+        "status": "PASS",
+        "checks": 26
+      },
+      {
+        "group": "Background",
+        "status": "PASS",
+        "checks": 0
+      }
+    ]
+  },
+  "postRedactionRerun": [
+    {
+      "group": "core",
+      "status": "PASS"
+    },
+    {
+      "group": "Noon",
+      "status": "PASS"
+    },
+    {
+      "group": "SameTime",
+      "status": "PASS"
+    },
+    {
+      "group": "BeforeDay",
+      "status": "PASS"
+    },
+    {
+      "group": "Inline",
+      "status": "PASS"
+    },
+    {
+      "group": "Snooze",
+      "status": "PASS"
+    },
+    {
+      "group": "Ocr",
+      "status": "PASS"
+    },
+    {
+      "group": "Batch",
+      "status": "PASS"
+    },
+    {
+      "group": "WidgetPreview",
+      "status": "PASS"
+    },
+    {
+      "group": "Smoke",
+      "status": "PASS"
+    },
+    {
+      "group": "Notice",
+      "status": "PASS"
+    }
+  ],
+  "apk": {
+    "file": "Shixu-1.0.15-arm64.apk",
+    "sha256": "456b1b712df9ed7ea8604def2849264d8b1e1e145b00eadaeecf5ddd1e33e611"
+  },
+  "appSourceFingerprintMatchesAudit": true,
+  "phoneAndEmulatorDexMatch": true,
+  "privacy": {
+    "fixtures": "Fictional examples; private links and identifying locations replaced.",
+    "excluded": [
+      "Private images",
+      "Raw logs",
+      "Signing keys",
+      "Local configuration",
+      "Private fixture paths"
+    ]
+  },
+  "limits": [
+    "OCR may misread text; review before saving.",
+    "API 36 emulator tests do not prove behavior on every Android device.",
+    "Vendor launcher, vibration feel, lock-screen delivery and cross-version upgrades still need physical-device validation."
+  ]
+}
