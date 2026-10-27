@@ -7,8 +7,8 @@ android {
         applicationId = "cn.shixu.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 55
-        versionName = "1.0.12"
+        versionCode = 58
+        versionName = "1.0.15"
         providers.gradleProperty("targetAbis").orNull?.let { ndk { abiFilters += it.split(',') } }
     }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
