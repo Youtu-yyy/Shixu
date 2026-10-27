@@ -1,6 +1,8 @@
 # 拾序 · 安卓待办与日程
 
-> 最新发布：[拾序 1.0.12](https://github.com/Youtu-yyy/Shixu/releases/tag/v1.0.12)。修复中午钟点、地点及通知标题提取；图片在本机识别，不上传。优先下载 arm64 安装包，可覆盖安装。
+本项目由 OpenAI GPT 制作，功能需求与版本验收由项目维护者确认。
+
+> 最新发布：[拾序 1.0.15](https://github.com/Youtu-yyy/Shixu/releases/tag/v1.0.15)。修复日期、完整地点与通知主事项提取，以及附带计划误拆分；已完成全面核查，验证范围和边界见 [发布核查摘要](docs/release-1.0.15.md)。
 
 ## 主要功能里程碑
 
@@ -36,7 +38,7 @@
 
 ## 构建
 
-重点回归测试见 [对话改进测试集](tests/regression/README.md)：78 条固定文本案例与47条验收记录。运行 `./test-regression.ps1` 可执行全部本机规则检查，结果写入 `build/regression/`；也可选择设备分组验证，真机项目单独记录。
+重点回归测试见 [对话改进测试集](tests/regression/README.md)：104 条固定文本案例与47条验收记录。运行 `./test-regression.ps1` 可执行全部本机规则检查，结果写入 `build/regression/`；也可选择设备分组验证，真机项目单独记录。
 
 在 PowerShell 7 中执行 `./build.ps1`，使用本机 JDK 21/Android Studio JBR 和 `F:\Android\Sdk` 中的 API 36、Build Tools 36.0.0，运行核心测试，再用 Gradle 合并离线 OCR 模型、库资源、原生库和初始化配置，打包并签署调试 APK。首次构建需要联网下载工具与依赖，缓存位于项目 `build/gradle-home`，运行时图片文字识别不需要联网。产物为 `build/Shixu-debug.apk`。只运行纯 Java 解析测试可用 `./build.ps1 -TestOnly`。
 
@@ -62,3 +64,5 @@ OCR 使用 Google ML Kit `com.google.mlkit:text-recognition-chinese:16.0.1` 的 
 后台专项测试：模拟器启动后运行 ./test-background.ps1，验证进程退出、锁屏及深度休眠下的实际通知，不打开应用界面触发补发；自动恢复模拟器电池/休眠状态并清理测试记录。
 
 桌面小组件：从拾序设置添加，或长按桌面空白处在小组件列表选择拾序 · 桌面待办。底部提供今明事项与全部事项切换。支持调整大小、连续滚动、点击标题编辑、新增、刷新，以及右侧勾选确认完成/恢复；完成后保留划线记录并取消本次提醒。组件已添加到模拟器桌面后，可运行 ./test-device.ps1 -WidgetOnly 验证交互；测试事项使用自动测试桌面前缀，可通过widget cleanup测试模式清理。
+
+
