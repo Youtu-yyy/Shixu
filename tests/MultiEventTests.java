@@ -17,6 +17,8 @@ public class MultiEventTests {
         List<OcrTable.Cell> headers=Arrays.asList(cell("时间",30,20,120),cell("内容",300,20,200),cell("主讲人",600,20,100),cell("地点",800,20,100));
         List<OcrTable.Cell> tokens=new ArrayList<>(Arrays.asList(cell("10月24日9:30",10,100,160),cell("阅读",300,95,60),cell("分享",300,125,60),cell("陈老师",600,100,100),cell("A101",800,100,80),cell("10月24日10:30",10,220,160),cell("电脑培训",300,220,160),cell("A202",800,220,80)));
         Collections.shuffle(tokens,new Random(4));String assembled=OcrTable.reconstruct(headers,tokens);r=parse(assembled);eq(2,r.size());eq("阅读 分享",r.get(0).task.title);eq("A101",r.get(0).task.location);eq("电脑培训",r.get(1).task.title);eq("A202",r.get(1).task.location);eq(true,assembled.contains("陈老师"));
+        List<OcrTable.Cell> traditionalHeaders=Arrays.asList(cell("時間",30,20,120),cell("內容",300,20,200),cell("主講人",600,20,100),cell("地點",800,20,100));
+        List<MultiEventParser.Candidate> traditionalRows=parse(OcrTable.reconstruct(traditionalHeaders,tokens));eq(2,traditionalRows.size());eq("A101",traditionalRows.get(0).task.location);eq("电脑培训",traditionalRows.get(1).task.title);
         eq("",OcrTable.reconstruct(Collections.emptyList(),tokens));eq("",OcrTable.reconstruct(headers,tokens.subList(0,1)));
         r=parse("2月30日14:00 | 错误日期测试 | 地点：A101\n11月8日15:00 | 考试 | 地点：A102");eq(2,r.size());eq("",r.get(0).task.date);eq(false,r.get(0).task.remind);
         r=parse("明天下午的培训取消；后天下午参加阅读交流会。");eq(0,r.size());
